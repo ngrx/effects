@@ -9,13 +9,12 @@
     "moduleResolution": "node",
     "declaration": false
   },
-  "filesGlob": [
-    "./**/*.ts",
-    "../typings/main.d.ts"
-  ],
   "files": [
-    "./index.spec.ts",
-    "../typings/main.d.ts"
+    "../typings/main.d.ts",
+    "effects.spec.ts",
+    "index.spec.ts",
+    "metadata.spec.ts",
+    "state-updates.spec.ts"
   ],
   "atom": {
     "rewriteTsconfig": true
