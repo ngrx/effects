@@ -1,5 +1,3 @@
-/// <reference path="../node_modules/reflect-metadata/reflect-metadata.d.ts"/>
-
 const METADATA_KEY = '@ngrx/effects';
 
 export function Effect(): PropertyDecorator {

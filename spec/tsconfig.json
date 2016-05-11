@@ -11,6 +11,7 @@
   },
   "files": [
     "../typings/main.d.ts",
+    "../manual-typings/reflect-metadata.d.ts",
     "effects.spec.ts",
     "index.spec.ts",
     "metadata.spec.ts",
