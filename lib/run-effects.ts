@@ -6,10 +6,11 @@ import { STATE_UPDATES_PROVIDER } from './state-updates';
 
 
 export function runEffects(...effects: any[]) {
-  const allEffects = flatten(effects).map(effect => new Provider(BOOTSTRAP_EFFECTS, {
-    useClass: effect,
-    multi: true
-  }));
+  const allEffects = flatten(effects)
+    .map(effect => new Provider(BOOTSTRAP_EFFECTS, {
+      useClass: effect,
+      multi: true
+    }));
 
   return [
     ...allEffects,

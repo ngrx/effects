@@ -4,7 +4,7 @@ import { Provider } from '@angular/core';
 
 import { StateUpdate, StateUpdates } from './state-updates';
 
-export class MockStateUpdates extends ReplaySubject<StateUpdate> {
+export class MockStateUpdates extends ReplaySubject<StateUpdate<any>> {
   constructor() {
     super();
   }

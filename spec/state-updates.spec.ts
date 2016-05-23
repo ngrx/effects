@@ -9,7 +9,7 @@ import { StateUpdates, StateUpdate, STATE_UPDATES_PROVIDER } from '../lib/state-
 
 
 describe('StateUpdates', function() {
-  let stateUpdates$: StateUpdates;
+  let stateUpdates$: StateUpdates<number>;
   let dispatcher: Dispatcher;
   const ADD = 'ADD';
   const SUBTRACT = 'SUBTRACT';
