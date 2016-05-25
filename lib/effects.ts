@@ -20,7 +20,7 @@ export function connectEffectsToStore(store: Store<any>, effects: any[]) {
     mergeEffects(...effects).subscribe(store);
 
     return Promise.resolve(true);
-  }
+  };
 }
 
 
