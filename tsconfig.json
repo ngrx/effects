@@ -2,9 +2,9 @@
   "version": "1.8.0",
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./release/es6",
+    "outDir": "./release/esm",
     "target": "es6",
-    "sourceMap": true,
+    "sourceMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": false,

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Side effect model for @ngrx/store",
   "main": "index.js",
+  "jsnext:main": "esm/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ngrx/effects.git"
@@ -18,9 +19,9 @@
     "prebuild": "npm-run-all clean typings karma",
     "build": "npm-run-all build:cjs build:es6",
     "build:cjs": "tsc --p tsconfig.es5.json --diagnostics --pretty",
-    "build:es6": "tsc -m es2015   --outDir ./release/es6 --target ES6 -d --diagnostics --pretty",
+    "build:es6": "tsc -m es2015   --outDir ./release/esm --target ES6 -d --diagnostics --pretty",
     "prepare": "npm-run-all prepare:*",
-    "prepare:es6": "cp -R ./release/es6 ./release/npm",
+    "prepare:es6": "cp -R ./release/esm ./release/npm",
     "prepare:package": "cp ./{package.json,README.md,LICENSE} ./release/npm",
     "test": "npm-run-all clean typings karma",
     "karma": "karma start --single-run",
