@@ -13,8 +13,8 @@ export function flatten(list: any[]): any[] {
 }
 
 
-export function toPayload(update: StateUpdate<any>): Action {
-  return update.action;
+export function toPayload(update: StateUpdate<any>): any {
+  return update.action.payload;
 }
 
 export function all(): boolean {
