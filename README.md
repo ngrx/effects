@@ -93,9 +93,9 @@ const EFFECTS = new OpaqueToken('Effects');
 
 @Component({
   providers: [
-    provide(EFFECTS, { useClass: AuthEffects }),
-    provide(EFFECTS, { useClass: AccountEffects }),
-    provide(EFFECTS, { useClass: UserEffects })
+    provide(EFFECTS, { multi: true, useClass: AuthEffects }),
+    provide(EFFECTS, { multi: true, useClass: AccountEffects }),
+    provide(EFFECTS, { multi: true, useClass: UserEffects })
   ]
 })
 export class SomeCmp {
