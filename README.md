@@ -2,6 +2,11 @@
 ### Side effect model for @ngrx/store
 [![Join the chat at https://gitter.im/ngrx/store](https://badges.gitter.im/ngrx/store.svg)](https://gitter.im/ngrx/store?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+### Installation
+To install @ngrx/effects from npm:
+```bash
+npm install @ngrx/effects --save
+```
 
 ## Effects
 In @ngrx/effects, effects are simply _sources of actions_. You use the `@Effect()` decorator to hint which observables on a service are action sources, and @ngrx/effects automatically connects your action sources to your store
