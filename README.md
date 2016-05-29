@@ -22,7 +22,7 @@ import { StateUpdates, Effect } from '@ngrx/effects'
 
 @Injectable()
 export class AuthEffects {
-  constructor(private http: Http, private updates$: StateUpdates) { }
+  constructor(private http: Http, private updates$: StateUpdates<any>) { }
 
   @Effect() login$ = this.updates$
       // Listen for the 'LOGIN' action
