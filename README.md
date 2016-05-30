@@ -7,6 +7,9 @@ To install @ngrx/effects from npm:
 ```bash
 npm install @ngrx/effects --save
 ```
+### Example Application
+
+https://github.com/ngrx/example-app
 
 ## Effects
 In @ngrx/effects, effects are simply _sources of actions_. You use the `@Effect()` decorator to hint which observables on a service are action sources, and @ngrx/effects automatically connects your action sources to your store
