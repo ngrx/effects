@@ -156,6 +156,7 @@ In store-saga, an `iterable$` observable containing state/action pairs was provi
 
 Before:
 ```ts
+// ... other needed imports here ...
 import { createSaga, whenAction, toPayload } from 'store-saga';
 
 const login$ = createSaga(function(http: Http) {
@@ -179,6 +180,7 @@ const login$ = createSaga(function(http: Http) {
 
 After:
 ```ts
+// ... other needed imports here ...
 import { Effect, toPayload, StateUpdates } from '@ngrx/effects';
 
 @Injectable()
@@ -188,7 +190,7 @@ export class AuthEffects {
   @Effect() login$ = this.updates$
     .whenAction('LOGIN')
     .map(update => JSON.stringify(update.action.payload))
-    .mergeMap(body => http.post('/auth', body)
+    .mergeMap(body => this.http.post('/auth', body)
       .map(res => ({
         type: 'LOGIN_SUCCESS',
         payload: res.json()
