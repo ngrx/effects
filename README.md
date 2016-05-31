@@ -156,6 +156,7 @@ In store-saga, an `iterable$` observable containing state/action pairs was provi
 
 Before:
 ```ts
+// ... other needed imports here ...
 import { createSaga, whenAction, toPayload } from 'store-saga';
 
 const login$ = createSaga(function(http: Http) {
