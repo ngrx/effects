@@ -1,7 +1,8 @@
-import 'rxjs/add/observable/merge';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { OpaqueToken, APP_INITIALIZER, Provider } from '@angular/core';
+import * as o from 'rxjs/observable/from';
+import { mergeAll } from 'rxjs/operator/mergeAll';
+import { OpaqueToken, APP_INITIALIZER } from '@angular/core';
 
 import { getEffectKeys } from './metadata';
 import { flatten } from './util';
@@ -11,21 +12,22 @@ export const BOOTSTRAP_EFFECTS = new OpaqueToken('@ngrx/effects Bootstrap Effect
 export function mergeEffects(...instances: any[]): Observable<any> {
   const observables = flatten(instances).map(i => getEffectKeys(i).map(key => i[key]));
 
-  return Observable.merge(...flatten(observables));
+  return mergeAll.call(o.from(flatten(observables)));
 }
 
 
 export function connectEffectsToStore(store: Store<any>, effects: any[]) {
   return function() {
-    mergeEffects(...effects).subscribe(store);
+    mergeEffects(effects).subscribe(store);
 
     return Promise.resolve(true);
   };
 }
 
 
-export const CONNECT_EFFECTS_PROVIDER = new Provider(APP_INITIALIZER, {
+export const CONNECT_EFFECTS_TO_STORE_PROVIDER = {
+  provide: APP_INITIALIZER,
   multi: true,
   deps: [ Store, BOOTSTRAP_EFFECTS ],
   useFactory: connectEffectsToStore
-});
+};

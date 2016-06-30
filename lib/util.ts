@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { StateUpdate } from './state-updates';
 
 
 export function flatten(list: any[]): any[] {
@@ -13,8 +12,8 @@ export function flatten(list: any[]): any[] {
 }
 
 
-export function toPayload(update: StateUpdate<any>): any {
-  return update.action.payload;
+export function toPayload(action: Action): any {
+  return action.payload;
 }
 
 export function all(): boolean {

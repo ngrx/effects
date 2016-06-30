@@ -15,7 +15,7 @@
     "effects.spec.ts",
     "index.spec.ts",
     "metadata.spec.ts",
-    "state-updates.spec.ts"
+    "of-type.spec.ts"
   ],
   "atom": {
     "rewriteTsconfig": true

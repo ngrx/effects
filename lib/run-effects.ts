@@ -1,23 +1,21 @@
-import { OpaqueToken, Provider } from '@angular/core';
+import { OpaqueToken } from '@angular/core';
 
 import { flatten } from './util';
 import { CONNECT_EFFECTS_PROVIDER, BOOTSTRAP_EFFECTS } from './effects';
-import { STATE_UPDATES_PROVIDER } from './state-updates';
 
 
-export function runEffects(...effects: any[]) {
-  const individuals = flatten(effects);
 
-  const allEffects = individuals
-    .map(effectClass => new Provider(BOOTSTRAP_EFFECTS, {
-      useExisting: effectClass,
+export function runEffects(...effects: any[]): any[] {
+  const effectsBoundToBootstrap = flatten(effects)
+    .map(effect => ({
+      provide: BOOTSTRAP_EFFECTS,
+      useExisting: effect,
       multi: true
     }));
 
   return [
-    ...individuals,
-    ...allEffects,
-    CONNECT_EFFECTS_PROVIDER,
-    STATE_UPDATES_PROVIDER
+    effects,
+    effectsBoundToBootstrap,
+    CONNECT_EFFECTS_PROVIDER
   ];
 }

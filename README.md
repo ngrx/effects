@@ -12,7 +12,7 @@ npm install @ngrx/effects --save
 https://github.com/ngrx/example-app
 
 ## Effects
-In @ngrx/effects, effects are simply _sources of actions_. You use the `@Effect()` decorator to hint which observables on a service are action sources, and @ngrx/effects automatically connects your action sources to your store
+In @ngrx/effects, effects are _sources of actions_. You use the `@Effect()` decorator to hint which observables on a service are action sources, and @ngrx/effects automatically connects your action sources to your store
 
 To help you compose new action sources, @ngrx/effects exports a `StateUpdates` observable service that emits every time your state updates along with the action that caused the state update. Note that even if there are no changes in your state, every action will cause state to update.
 
@@ -20,18 +20,18 @@ For example, here's an AuthEffects service that describes a source of login acti
 ```ts
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
-import { StateUpdates, Effect } from '@ngrx/effects'
+import { Action, Dispatcher } from '@ngrx/store';
+import { Effect } from '@ngrx/effects'
 
 @Injectable()
 export class AuthEffects {
-  constructor(private http: Http, private updates$: StateUpdates<any>) { }
+  constructor(private http: Http, private actions$: Dispatcher) { }
 
-  @Effect() login$ = this.updates$
+  @Effect() login$ = this.actions$
       // Listen for the 'LOGIN' action
-      .whenAction('LOGIN')
+      .ofType('LOGIN')
       // Map the payload into JSON to use as the request body
-      .map(update => JSON.stringify(update.action.payload))
+      .map(action => JSON.stringify(action.payload))
       .switchMap(payload => this.http.post('/auth', payload)
         // If successful, dispatch success action with result
         .map(res => ({ type: 'LOGIN_SUCCESS', payload: res.json() }))
@@ -53,13 +53,13 @@ bootstrap(App, [
 
 ### Dynamically Running Effects
 
-The `@Effect()` provides metadata to hint which observables on a class should be connected to `Store`. If you want to dynamically run an effect, simply inject the effect class and subscribe the effect to `Store` manually:
+The `@Effect()` provides metadata to hint which observables on an effect class to connect `Store`. To dynamically run an effect inject the effect class and subscribe the effect to `Store` manually:
 
 ```ts
 @Injectable()
 export class AuthEffects {
-  @Effect() login$ = this.updates$
-    .whenAction('LOGIN')
+  @Effect() login$ = this.actions$
+    .ofType('LOGIN')
     .mergeMap(...)
 }
 
@@ -69,7 +69,7 @@ export class AuthEffects {
     AuthEffects
   ]
 })
-export class SomeCmp {
+export class SomeComponent {
   subscription: Subscription;
 
   constructor(store: Store<State>, authEffects: AuthEffects) {
@@ -78,15 +78,15 @@ export class SomeCmp {
 }
 ```
 
-To stop the effect, simply unsubscribe:
+Unsubscribe the subscription to stop the effect:
 ```ts
 ngOnDestroy() {
   this.subscription.unsubscribe();
 }
 ```
 
-#### Starting Multiple Effects
-If you don't want to connect each source manually, you can use the simple `mergeEffects()` helper function to automatically merge all decorated effects across any number of effect services:
+#### Starting Groups of Effects
+If you don't want to connect each source manually, you can use `mergeEffects()` to merge all decorated effects across any number of effect service instances:
 
 ```ts
 import { OpaqueToken, Inject } from '@angular/core';
@@ -110,17 +110,17 @@ export class SomeCmp {
 
 
 ### Testing Effects
-To test your effects, simply mock out your effect's dependencies and use the `MockStateUpdates` service to send actions and state changes to your effect:
+To test your effects, mock out your effect's dependencies and use the `MockDispatcher` service to send actions to your effect:
 
 ```ts
 import {
   MOCK_EFFECTS_PROVIDERS,
-  MockStateUpdates
+  MockDispatcher
 } from '@ngrx/effects/testing';
 
 describe('Auth Effects', function() {
   let auth: AuthEffects;
-  let updates$: MockStateUpdates;
+  let actions$: MockDispatcher;
 
   beforeEach(function() {
     const injector = ReflectiveInjector.resolveAndCreate([
@@ -130,12 +130,12 @@ describe('Auth Effects', function() {
     ]);
 
     auth = injector.get(AuthEffects);
-    updates$ = injector.get(MockStateUpdates);
+    actions$ = injector.get(MockDispatcher);
   });
 
   it('should respond in a certain way', function() {
     // Add an action in the updates queue
-    updates$.sendAction({ type: 'LOGIN', payload: { ... } });
+    actions$.dispatch({ type: 'LOGIN', payload: { ... } });
 
     auth.login$.subscribe(function(action) {
       /* assert here */
@@ -144,7 +144,7 @@ describe('Auth Effects', function() {
 });
 ```
 
-You can use `MockStateUpdates@sendAction(action)` to send an action with an empty state, `MockStateUpdates@sendState(state)` to send a state change with an empty action, and `MockStateUpdates@send(state, action)` to send both a state change and an action. Note that `MockStateUpdates` is a replay subject with an infinite buffer size letting you queue up multiple actions / state changes to be sent to your effect.
+You can use `MockDispatcher@dispatch(action)` to send an action to your effect. Note that `MockDispatcher` is a replay subject with an infinite buffer size letting you queue up actions to send to your effect.
 
 
 ### Migrating from store-saga
@@ -152,7 +152,7 @@ You can use `MockStateUpdates@sendAction(action)` to send an action with an empt
 @ngrx/effects is heavily inspired by store-saga making it easy to translate sagas into effects.
 
 #### Rewriting Sagas
-In store-saga, an `iterable$` observable containing state/action pairs was provided to your saga factory function. Typically you would use the `filter` operator and the `whenAction` helper to listen for specific actions to occur. In @ngrx/effects, an observable named `StateUpdates` offers similar functionality and can be injected into an effect class. To listen to specific actions, @ngrx/effects includes a special `whenAction` operator on the `StateUpdates` observable.
+In store-saga, an `iterable$` observable containing state/action pairs along with the `filter` operator and the `whenAction` helper let you listen for specific actions to occur. In @ngrx/effects, you use the `Dispatcher` from `@ngrx/store` with the special `ofType` operator to filter for specific actions:
 
 Before:
 ```ts
@@ -181,15 +181,16 @@ const login$ = createSaga(function(http: Http) {
 After:
 ```ts
 // ... other needed imports here ...
-import { Effect, toPayload, StateUpdates } from '@ngrx/effects';
+import { Dispatcher } from '@ngrx/store';
+import { Effect } from '@ngrx/effects';
 
 @Injectable()
 export class AuthEffects {
-  constructor(private http: Http, private updates$: StateUpdates<State>) { }
+  constructor(private http: Http, private actions$: Dispatcher) { }
 
-  @Effect() login$ = this.updates$
-    .whenAction('LOGIN')
-    .map(update => JSON.stringify(update.action.payload))
+  @Effect() login$ = this.actions$
+    .ofType('LOGIN')
+    .map(action => JSON.stringify(action.payload))
     .mergeMap(body => this.http.post('/auth', body)
       .map(res => ({
         type: 'LOGIN_SUCCESS',
