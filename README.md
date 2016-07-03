@@ -14,42 +14,46 @@ https://github.com/ngrx/example-app
 ## Effects
 In @ngrx/effects, effects are simply _sources of actions_. You use the `@Effect()` decorator to hint which observables on a service are action sources, and @ngrx/effects automatically connects your action sources to your store
 
-To help you compose new action sources, @ngrx/effects exports a `StateUpdates` observable service that emits every time your state updates along with the action that caused the state update. Note that even if there are no changes in your state, every action will cause state to update.
+To help you compose new action sources, @ngrx/effects exports a `StateUpdates` observable service that emits a `StateUpdate` object, containing the current state and dispatched action, for each state update. 
 
-For example, here's an AuthEffects service that describes a source of login actions:
-```ts
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
-import { StateUpdates, Effect } from '@ngrx/effects'
+__*Note: Even if there are no changes in your state, every action will cause state to update!*__
 
-@Injectable()
-export class AuthEffects {
-  constructor(private http: Http, private updates$: StateUpdates<any>) { }
 
-  @Effect() login$ = this.updates$
-      // Listen for the 'LOGIN' action
-      .whenAction('LOGIN')
-      // Map the payload into JSON to use as the request body
-      .map(update => JSON.stringify(update.action.payload))
-      .switchMap(payload => this.http.post('/auth', payload)
-        // If successful, dispatch success action with result
-        .map(res => ({ type: 'LOGIN_SUCCESS', payload: res.json() }))
-        // If request fails, dispatch failed action
-        .catch(() => Observable.of({ type: 'LOGIN_FAILED' }));
-      );
-}
-```
+### Example
+1. Create an AuthEffects service that describes a source of login actions:
+  ```ts
+  import { Injectable } from '@angular/core';
+  import { Observable } from 'rxjs/Observable';
+  import { Action } from '@ngrx/store';
+  import { StateUpdates, Effect } from '@ngrx/effects'
+  
+  @Injectable()
+  export class AuthEffects {
+    constructor(private http: Http, private updates$: StateUpdates<any>) { }
+  
+    @Effect() login$ = this.updates$
+        // Listen for the 'LOGIN' action
+        .whenAction('LOGIN')
+        // Map the payload into JSON to use as the request body
+        .map(update => JSON.stringify(update.action.payload))
+        .switchMap(payload => this.http.post('/auth', payload)
+          // If successful, dispatch success action with result
+          .map(res => ({ type: 'LOGIN_SUCCESS', payload: res.json() }))
+          // If request fails, dispatch failed action
+          .catch(() => Observable.of({ type: 'LOGIN_FAILED' }));
+        );
+  }
+  ```
 
-Then you run your effects during bootstrap:
-```ts
+2. Run your effects during application bootstrap:
+  ```ts
 import { runEffects } from '@ngrx/effects';
 
 bootstrap(App, [
   provideStore(reducer),
   runEffects(AuthEffects)
 ]);
-```
+``` 
 
 ### Dynamically Running Effects
 
