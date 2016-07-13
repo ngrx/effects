@@ -37,8 +37,7 @@
   "license": "MIT",
   "peerDependencies": {
     "rxjs": "5.0.0-beta.6",
-    "@angular/core": "^2.0.0-rc.1",
-    "@ngrx/store": "^2.0.0"
+    "@angular/core": "^2.0.0-rc.1"
   },
   "devDependencies": {
     "@angular/common": "^2.0.0-rc.1",
@@ -69,5 +68,8 @@
     "typings": "^0.7.12",
     "webpack": "^1.12.14",
     "zone.js": "^0.6.8"
+  },
+  "dependencies": {
+    "@ngrx/store": "^2.0.1"
   }
 }
