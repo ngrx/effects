@@ -12,9 +12,9 @@ npm install @ngrx/effects --save
 https://github.com/ngrx/example-app
 
 ## Effects
-In @ngrx/effects, effects are simply _sources of actions_. You use the `@Effect()` decorator to hint which observables on a service are action sources, and @ngrx/effects automatically connects your action sources to your store
+In @ngrx/effects, effects are _sources of actions_. You use the `@Effect()` decorator to hint which observables on a service are action sources, and @ngrx/effects automatically connects your action sources to your store
 
-To help you compose new action sources, @ngrx/effects exports a `StateUpdates` observable service that emits a `StateUpdate` object, containing the current state and dispatched action, for each state update. 
+To help you compose new action sources, @ngrx/effects exports a `StateUpdates` observable service that emits a `StateUpdate` object, containing the current state and dispatched action, for each state update.
 
 __*Note: Even if there are no changes in your state, every action will cause state to update!*__
 
@@ -26,11 +26,11 @@ __*Note: Even if there are no changes in your state, every action will cause sta
   import { Observable } from 'rxjs/Observable';
   import { Action } from '@ngrx/store';
   import { StateUpdates, Effect } from '@ngrx/effects'
-  
+
   @Injectable()
   export class AuthEffects {
     constructor(private http: Http, private updates$: StateUpdates<any>) { }
-  
+
     @Effect() login$ = this.updates$
         // Listen for the 'LOGIN' action
         .whenAction('LOGIN')
@@ -53,11 +53,11 @@ bootstrap(App, [
   provideStore(reducer),
   runEffects(AuthEffects)
 ]);
-``` 
+```
 
 ### Dynamically Running Effects
 
-The `@Effect()` provides metadata to hint which observables on a class should be connected to `Store`. If you want to dynamically run an effect, simply inject the effect class and subscribe the effect to `Store` manually:
+The `@Effect()` decorator provides metadata to hint which observables on a class should be connected to `Store`. If you want to dynamically run an effect inject the effect class and subscribe the effect to `Store` manually:
 
 ```ts
 @Injectable()
@@ -82,7 +82,7 @@ export class SomeCmp {
 }
 ```
 
-To stop the effect, simply unsubscribe:
+Unsubscribe to stop the effect:
 ```ts
 ngOnDestroy() {
   this.subscription.unsubscribe();
@@ -90,7 +90,7 @@ ngOnDestroy() {
 ```
 
 #### Starting Multiple Effects
-If you don't want to connect each source manually, you can use the simple `mergeEffects()` helper function to automatically merge all decorated effects across any number of effect services:
+If you don't want to connect each source manually, you can use the `mergeEffects()` helper function to automatically merge all decorated effects across any number of effect services:
 
 ```ts
 import { OpaqueToken, Inject } from '@angular/core';
@@ -114,7 +114,7 @@ export class SomeCmp {
 
 
 ### Testing Effects
-To test your effects, simply mock out your effect's dependencies and use the `MockStateUpdates` service to send actions and state changes to your effect:
+To test your effects mock out your effect's dependencies and use the `MockStateUpdates` service to send actions and state changes to your effect:
 
 ```ts
 import {
