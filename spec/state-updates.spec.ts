@@ -5,8 +5,8 @@ import 'rxjs/add/observable/of';
 import { ReflectiveInjector } from '@angular/core';
 import { Action, provideStore, Dispatcher } from '@ngrx/store';
 
-import { StateUpdates, StateUpdate, STATE_UPDATES_PROVIDER } from '../lib/state-updates';
-
+import { StateUpdates } from '../lib/state-updates';
+import { STATE_UPDATES_PROVIDER} from '../lib/ng2'
 
 describe('StateUpdates', function() {
   let stateUpdates$: StateUpdates<number>;
