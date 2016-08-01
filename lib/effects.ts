@@ -5,7 +5,14 @@ import { getEffectKeys } from './metadata';
 import { flatten } from './util';
 
 export function mergeEffects(...instances: any[]): Observable<any> {
-  const observables = flatten(instances).map(i => getEffectKeys(i).map(key => i[key]));
+  const observables: Observable<any>[] = flatten(instances).map((i: any): any => getEffectKeys(i).map(
+    (key: string): Observable<any> => {
+        if (typeof i[key] === 'function') {
+            return i[key]();
+        }
+        return i[key];
+    }
+  ));
 
   return Observable.merge(...flatten(observables));
 }
