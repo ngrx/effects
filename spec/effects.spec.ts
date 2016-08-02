@@ -10,10 +10,11 @@ describe('mergeEffects', function() {
       @Effect() a = Observable.of('a');
       @Effect() b = Observable.of('b');
       @Effect() c = Observable.of('c');
+      @Effect() d() { return Observable.of('d'); }
     }
 
     const mock = new Fixture();
-    const expected = ['a', 'b', 'c'];
+    const expected = ['a', 'b', 'c', 'd'];
 
     mergeEffects(mock).toArray().subscribe({
       next(actual) {
@@ -37,9 +38,13 @@ describe('mergeEffects', function() {
       @Effect() c = Observable.of('c');
     }
 
-    const expected = ['a', 'b', 'c'];
+    class Fourth {
+      @Effect() d() { return Observable.of('d'); }
+    }
 
-    mergeEffects([ new First(), new Second(), new Third() ]).toArray().subscribe({
+    const expected = ['a', 'b', 'c', 'd'];
+
+    mergeEffects([ new First(), new Second(), new Third(), new Fourth() ]).toArray().subscribe({
       next(actual) {
         expect(actual).toEqual(expected);
       },
