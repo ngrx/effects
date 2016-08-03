@@ -3,12 +3,14 @@ import { filter } from 'rxjs/operator/filter';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Action, Dispatcher, State } from '@ngrx/store';
+import { Injectable } from '@angular/core';
 
 export interface StateUpdate<S> {
   state: S;
   action: Action;
 }
 
+@Injectable()
 export class StateUpdates<S> extends ReplaySubject<StateUpdate<S>> {
   constructor(actions$: Dispatcher, state$: State<S>) {
     super(1);
