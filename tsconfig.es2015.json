@@ -1,23 +1,25 @@
 {
-  "version": "1.8.0",
+  "version": "2.0.0",
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./release/npm",
-    "sourceRoot": "/",
+    "outDir": "./release/lib",
     "target": "es5",
-    "module": "commonjs",
     "sourceMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": false,
     "moduleResolution": "node",
-    "declaration": true
+    "declaration": true,
+    "module": "es2015",
+    "lib": ["es5", "dom", "es2015"]
   },
   "exclude": [
     "node_modules",
     "spec",
-    "release",
-    "typings/browser",
-    "typings/browser.d.ts"
-  ]
+    "typings",
+    "release"
+  ],
+  "angularCompilerOptions": {
+    "genDir": ".ngc"
+  }
 }

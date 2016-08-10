@@ -56,16 +56,13 @@ module.exports = function(karma) {
         postLoaders: [
           {
             test: /\.(js|ts)$/, loader: 'istanbul-instrumenter-loader',
-            include: path.resolve(__dirname, 'lib'),
+            include: path.resolve(__dirname, 'src'),
             exclude: [
               /\.(e2e|spec)\.ts$/,
               /node_modules/
             ]
           }
         ]
-      },
-      ts: {
-        configFileName: './spec/tsconfig.json'
       }
     },
 
