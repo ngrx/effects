@@ -112,6 +112,30 @@ export class SomeCmp {
 }
 ```
 
+### Declaring effects as functions
+In the `AuthEffects` example above, the `@Effect` decorator was placed on a member property of the class.
+That will work fine if you declare the stateUpdate member property in the constructor but will fail at runtime if you declare those outside of the constructor due to the order in which TypeScript emits the JS code. For more details, see #17.
+
+If you declare member properties outside of the constructor, you MUST add the `@Effect` decorator to a function as in the example below:
+
+```
+class AuthEffects {
+   private update$:StateUpdates<any>;
+
+   @Effect
+   private loginEffect$:Observable<any>;
+
+   constructor(stateUpdates:StateUpdates<any>, ...) {
+      this.stateUpdates = stateUpdates;
+      this.loginEffect$ = this.loginEffect();
+   }
+
+   public loginEffect():Observable<any> {
+      return this.updates$
+      .whenAction('LOGIN')
+      ...
+}
+```
 
 ### Testing Effects
 To test your effects mock out your effect's dependencies and use the `MockStateUpdates` service to send actions and state changes to your effect:
