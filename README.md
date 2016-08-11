@@ -113,16 +113,18 @@ export class SomeCmp {
 ```
 
 ### Declaring effects as functions
-In the `AuthEffects` example above, the `@Effect` decorator was placed on a member property of the class.
+In the `AuthEffects` example above, the `@Effect()` decorator was placed on a member property of the class.
+
 That will work fine if you declare the stateUpdate member property in the constructor but will fail at runtime if you declare those outside of the constructor due to the order in which TypeScript emits the JS code. For more details, see #17.
 
-If you declare member properties outside of the constructor, you MUST add the `@Effect` decorator to a function as in the example below:
+If you declare member properties outside of the constructor, you MUST add the `@Effect()` decorator to a function as in the example below:
 
 ```
+@Injectable()
 class AuthEffects {
    private update$:StateUpdates<any>;
 
-   @Effect
+   @Effect()
    private loginEffect$:Observable<any>;
 
    constructor(stateUpdates:StateUpdates<any>, ...) {
