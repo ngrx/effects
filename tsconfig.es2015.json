@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./release/cjs",
+    "outDir": "./release/lib",
     "target": "es5",
     "sourceMap": false,
     "emitDecoratorMetadata": true,
@@ -10,13 +10,16 @@
     "removeComments": false,
     "moduleResolution": "node",
     "declaration": true,
-    "lib": ["es5", "dom", "es2015"],
-    "types": [
-      "jasmine"
-    ]
+    "module": "es2015",
+    "lib": ["es5", "dom", "es2015"]
   },
   "exclude": [
     "node_modules",
+    "spec",
+    "typings",
     "release"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "genDir": ".ngc"
+  }
 }

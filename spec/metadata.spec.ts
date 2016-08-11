@@ -1,4 +1,4 @@
-import { Effect, getEffectKeys } from '../lib/metadata';
+import { Effect, getEffectKeys } from '../src/effects';
 
 describe('Effect Decorator', () => {
   it('should get the effect keys for a class instance', () => {
