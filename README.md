@@ -20,24 +20,16 @@ To help you compose new action sources, @ngrx/effects exports an `Actions` obser
 ### Example
 1. Create an AuthEffects service that describes a source of login actions:
   ```ts
-  import { Injectable, OnDestroy } from '@angular/core';
-  import { Observable } from 'rxjs/Observable';
-  import { Subscription } from 'rxjs/Subscription';
-  import { Action, Store } from '@ngrx/store';
-  import { Actions, Effect, mergeEffects } from '@ngrx/effects';
+  import { Injectable } from '@angular/core';
+  import { Http } from '@angular/http';
+  import { Actions, Effect } from '@ngrx/effects';
 
   @Injectable()
   export class AuthEffects implements OnDestroy {
-    subscription: Subscription;
-
     constructor(
       private http: Http,
-      private actions$: Actions,
-      private store: Store<State>
-    ) {
-      // Merge all effects and subscribe them to the store
-      this.subscription = mergeEffects(this).subscribe(store);
-    }
+      private actions$: Actions
+    ) { }
 
     @Effect() login$ = this.actions$
         // Listen for the 'LOGIN' action
@@ -50,25 +42,22 @@ To help you compose new action sources, @ngrx/effects exports an `Actions` obser
           // If request fails, dispatch failed action
           .catch(() => Observable.of({ type: 'LOGIN_FAILED' }));
         );
-
-    // You MUST implement an ngOnDestroy method for your effects to
-    // automatically start. Use ngOnDestroy to cleanup running effects.
-    ngOnDestroy() {
-      this.subscription.unsubscribe();
-    }
   }
   ```
 
-2. Provide your service in your component's providers array or in an `NgModule` providers array to automatically start your effects:
+2. Provide your service via `EffectsModule.run` to automatically start your effect:
   ```ts
   import { AuthEffects } from './effects/auth';
+  import { EffectsModule } from '@ngrx/effects';
 
   @NgModule({
-    providers: [ AuthEffects ]
+    imports: [
+      EffectsModule.run(AuthEffects)
+    ]
   })
   export class AppModule { }
   ```
-
+  *Note*: For effects that depend on the application to be bootstrapped (i.e. effects that depend on the Router) use `EffectsModule.runAfterBootstrap`. Be aware that `runAfterBootstrap` will only work in the root module.
 
 
 
