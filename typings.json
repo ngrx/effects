@@ -1,7 +1,0 @@
-{
-  "ambientDependencies": {
-    "core-js": "registry:dt/core-js#0.0.0+20160317120654",
-    "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "node": "registry:dt/node#4.0.0+20160509154515"
-  }
-}
