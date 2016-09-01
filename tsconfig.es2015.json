@@ -13,11 +13,8 @@
     "module": "es2015",
     "lib": ["es5", "dom", "es2015"]
   },
-  "exclude": [
-    "node_modules",
-    "spec",
-    "typings",
-    "release"
+  "include": [
+    "src/**/*"
   ],
   "angularCompilerOptions": {
     "genDir": ".ngc"

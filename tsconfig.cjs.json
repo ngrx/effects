@@ -11,15 +11,10 @@
     "moduleResolution": "node",
     "declaration": true,
     "module": "commonjs",
-    "lib": ["es5", "dom", "es2015"],
-    "types": [
-      "jasmine",
-      "node"
-    ]
+    "lib": ["es5", "dom", "es2015"]
   },
-  "exclude": [
-    "node_modules",
-    "release"
+  "include": [
+    "src/**/*"
   ],
   "angularCompilerOptions": {
     "genDir": ".ngc"
