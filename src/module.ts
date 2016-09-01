@@ -17,7 +17,7 @@ import { runAfterBootstrapEffects, afterBootstrapEffects } from './bootstrap-lis
   ]
 })
 export class EffectsModule {
-  static run(type: Type) {
+  static run(type: Type<any>) {
     return {
       ngModule: EffectsModule,
       providers: [
@@ -28,7 +28,7 @@ export class EffectsModule {
     };
   }
 
-  static runAfterBootstrap(type: Type) {
+  static runAfterBootstrap(type: Type<any>) {
     return {
       ngModule: EffectsModule,
       providers: [
