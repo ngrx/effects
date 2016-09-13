@@ -1,6 +1,5 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Action } from '@ngrx/store';
-import { Provider } from '@angular/core';
 import { filter } from 'rxjs/operator/filter';
 import { Observable } from 'rxjs/Observable';
 import { StateUpdate, StateUpdates } from './state-updates';
@@ -30,10 +29,6 @@ export class MockStateUpdates extends ReplaySubject<StateUpdate<any>> {
 }
 
 export const MOCK_EFFECTS_PROVIDERS = [
-  new Provider(MockStateUpdates, {
-    useClass: MockStateUpdates
-  }),
-  new Provider(StateUpdates, {
-    useExisting: MockStateUpdates
-  })
+  {provide: MockStateUpdates, useClass: MockStateUpdates},
+  {provide: StateUpdates, useExisting: MockStateUpdates}
 ];
