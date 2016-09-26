@@ -15,7 +15,12 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@ngrx/effects": ["./"]
+    }
   },
   "exclude": [
     "node_modules",
