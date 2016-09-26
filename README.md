@@ -62,4 +62,42 @@ To help you compose new action sources, @ngrx/effects exports an `Actions` obser
 
 
 ### Testing Effects
-WIP
+
+1. Declare the `EffectsTestingModule` in your testing module:
+  ```ts
+  import { EffectsTestingModule, EffectsTestRunner } from '@ngrx/effects';
+
+  describe('My Effect', () => {
+    beforeEach(() => TestBed.configureTestingModule({
+      imports: [
+        EffectsTestingModule
+      ],
+      declarations: [
+        AuthEffects
+      ]
+    }));
+  });
+  ```
+
+2. Inject the `EffectsTestRunner` and use it queue actions:
+  ```ts
+  let runner: EffectsTestRunner;
+
+  beforeEach(inject([
+    EffectsTestRunner,
+    (_runner) => {
+      runner = _runner;
+    }
+  ]));
+  ```
+
+3. Queue up actions then subscribe to the effect you want to test, asserting on the result:
+  ```ts
+  it('should return a LOGIN_SUCCESS action after logging in', () => {
+    runner.queue({ type: 'LOGIN' });
+
+    authEffects.login$.subscribe(result => {
+      expect(result).toEqual({ type: 'LOGIN_SUCCESS' });
+    });
+  });
+  ```
