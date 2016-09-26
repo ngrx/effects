@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Actions } from '../src/actions';
+import { Actions } from '@ngrx/effects';
 import { EffectsTestRunner } from './runner';
 
 

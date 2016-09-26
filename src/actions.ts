@@ -3,7 +3,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Action, Dispatcher } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { Operator } from 'rxjs/Operator';
 import { filter } from 'rxjs/operator/filter';
 
 

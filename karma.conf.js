@@ -9,20 +9,19 @@ module.exports = function(karma) {
     frameworks: ['jasmine'],
 
     files: [
-      { pattern: 'tests.ts', watched: false }
+      { pattern: 'tests.bundle.ts', watched: false }
     ],
 
     exclude: [],
 
     preprocessors: {
-      'tests.ts': ['coverage', 'webpack', 'sourcemap']
+      'tests.bundle.ts': ['coverage', 'webpack', 'sourcemap']
     },
 
     reporters: ['mocha', 'coverage'],
 
     coverageReporter: {
       dir: 'coverage/',
-      subdir: '.',
       reporters: [
         { type: 'text-summary' },
         { type: 'json' },
@@ -38,7 +37,7 @@ module.exports = function(karma) {
     logLevel: karma.LOG_INFO,
     autoWatch: true,
     singleRun: false,
-
+    webpackServer: { noInfo: true },
     webpack: {
       devtool: 'inline-source-map',
       resolve: {
@@ -46,24 +45,37 @@ module.exports = function(karma) {
         extensions: ['', '.ts', '.js']
       },
       module: {
+        preLoaders: [
+          {
+            test: /\.ts$/,
+            loader: 'tslint-loader',
+            exclude: [
+              /node_modules/
+            ]
+          }
+        ],
         loaders: [
           {
             test: /\.ts?$/,
             exclude: /(node_modules)/,
-            loader: 'awesome-typescript'
+            loader: 'ts'
           }
         ],
         postLoaders: [
           {
-            test: /\.ts?$/, loader: 'istanbul-instrumenter',
+            test: /\.(js|ts)$/, loader: 'istanbul-instrumenter',
             include: path.resolve(__dirname, 'src'),
             exclude: [
-              /\.(e2e|spec)\.ts$/,
-              /tests/,
+              /\.(e2e|spec|bundle)\.ts$/,
               /node_modules/
             ]
           }
         ]
+      },
+      tslint: {
+        emitErrors: false,
+        failOnHint: false,
+        resourcePath: 'src'
       }
     }
   });
