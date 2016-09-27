@@ -3,7 +3,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 
 @Injectable()
-export class EffectsTestRunner extends ReplaySubject<any> {
+export class EffectsRunner extends ReplaySubject<any> {
   constructor() {
     super();
   }
