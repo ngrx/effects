@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = function(karma) {
   'use strict';
@@ -41,30 +42,27 @@ module.exports = function(karma) {
     webpack: {
       devtool: 'inline-source-map',
       resolve: {
-        root: __dirname,
-        extensions: ['', '.ts', '.js']
+        extensions: ['.ts', '.js']
       },
       module: {
-        preLoaders: [
+        rules: [
           {
             test: /\.ts$/,
             loader: 'tslint-loader',
+            enforce: 'pre',
             exclude: [
               /node_modules/
             ]
-          }
-        ],
-        loaders: [
+          },
           {
             test: /\.ts?$/,
             exclude: /(node_modules)/,
             loader: 'ts'
-          }
-        ],
-        postLoaders: [
+          },
           {
             test: /\.(js|ts)$/, loader: 'istanbul-instrumenter',
             include: path.resolve(__dirname, 'src'),
+            enforce: 'post',
             exclude: [
               /\.(e2e|spec|bundle)\.ts$/,
               /node_modules/
@@ -72,11 +70,15 @@ module.exports = function(karma) {
           }
         ]
       },
-      tslint: {
-        emitErrors: false,
-        failOnHint: false,
-        resourcePath: 'src'
-      }
+      plugins: [
+        new webpack.LoaderOptionsPlugin({
+          tslint: {
+            emitErrors: false,
+            failOnHint: false,
+            resourcePath: 'src'
+          }
+        })
+      ]      
     }
   });
 };
