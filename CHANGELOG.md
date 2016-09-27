@@ -1,3 +1,20 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/ngrx/effects/compare/v1.1.1...v2.0.0) (2016-09-27)
+
+
+### Bug Fixes
+
+* **Type:** Use Type<any> instead of Type ([228eab1](https://github.com/ngrx/effects/commit/228eab1))
+
+
+### Features
+
+* **EffectsSubscription:** Add child subscriptions to parent ([cddb9ae](https://github.com/ngrx/effects/commit/cddb9ae))
+* **testing:** Add testing module for easily mocking out actions ([4c912d2](https://github.com/ngrx/effects/commit/4c912d2))
+* **toPayload:** Bring back toPayload helper function ([97365b0](https://github.com/ngrx/effects/commit/97365b0))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/ngrx/effects/compare/v1.1.0...v1.1.1) (2016-08-03)
 
