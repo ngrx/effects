@@ -9,7 +9,7 @@
       imports: [
         EffectsTestingModule
       ],
-      declarations: [
+      providers: [
         AuthEffects
       ]
     }));
@@ -19,13 +19,16 @@
 2. Inject the `EffectsTestRunner`:
   ```ts
   let runner: EffectsRunner;
+  let authEffects: AuthEffects;
 
   beforeEach(inject([
-    EffectsRunner,
-    (_runner) => {
+      EffectsRunner, AuthEffects
+    ],
+    (_runner, _authEffects) => {
       runner = _runner;
+      authEffects = _authEffects;
     }
-  ]));
+  ));
   ```
 
 3. Queue up actions and then subscribe to the effect you want to test asserting
