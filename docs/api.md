@@ -66,7 +66,7 @@ Usage:
 class MyEffects {
   constructor(private actions$: Actions, private auth: AuthService) { }
 
-  @Effect() login$: Observable<Actions> = this.actions$
+  @Effect() login$: Observable<Action> = this.actions$
     .ofType('LOGIN')
     .switchMap(action =>
       this.auth.login(action.payload)
@@ -74,7 +74,7 @@ class MyEffects {
         .catch(err => Observable.of({ type: 'LOGIN_FAILURE', payload: err }))
     );
 
-  @Effect() logout(): Observable<Actions> {
+  @Effect() logout(): Observable<Action> {
     return this.actions$
       .ofType('LOGOUT')
       .switchMap(() =>
