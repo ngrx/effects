@@ -6,6 +6,7 @@ import { merge } from 'rxjs/observable/merge';
 import { mergeEffects } from './effects';
 import { Actions } from './actions';
 
+import { effectsConfig, EffectsConfiguration } from './effects.config';
 
 export const effects = new OpaqueToken('ngrx/effects: Effects');
 
@@ -14,7 +15,8 @@ export class EffectsSubscription extends Subscription implements OnDestroy {
   constructor(
     @Inject(Store) private store: Observer<Actions>,
     @Optional() @SkipSelf() public parent: EffectsSubscription,
-    @Optional() @Inject(effects) effectInstances?: any[]
+    @Optional() @Inject(effects) effectInstances?: any[],
+    @Optional() @Inject(effectsConfig) private effectsConfig?: EffectsConfiguration,
   ) {
     super();
 
@@ -28,7 +30,8 @@ export class EffectsSubscription extends Subscription implements OnDestroy {
   }
 
   addEffects(effectInstances: any[]) {
-    const sources = effectInstances.map(mergeEffects);
+    const registerEffectWithPrefix = this.effectsConfig && this.effectsConfig.registerEffectWithPrefix;
+    const sources = effectInstances.map(instance => mergeEffects(instance, registerEffectWithPrefix));
     const merged = merge(...sources);
 
     this.add(merged.subscribe(this.store));

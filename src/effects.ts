@@ -33,11 +33,10 @@ export function getEffectsMetadata(instance: any): EffectMetadata[] {
   return (Reflect as any).getOwnMetadata(METADATA_KEY, target);
 }
 
-export function mergeEffects(instance: any): Observable<any> {
+export function mergeEffects(instance: any, prefix?: string): Observable<any> {
   const observables: Observable<any>[] = getEffectsMetadata(instance).map(
     ({ propertyName, dispatch }): Observable<any> => {
-      const observable = typeof instance[propertyName] === 'function' ?
-        instance[propertyName]() : instance[propertyName];
+      const observable = getObservable(instance, propertyName);
 
       if (dispatch === false) {
         return ignoreElements.call(observable);
@@ -47,5 +46,27 @@ export function mergeEffects(instance: any): Observable<any> {
     }
   );
 
+  appendEffectsWithPrefix(instance, observables, prefix);
+
   return merge(...observables);
+}
+
+function appendEffectsWithPrefix(instance: any, observables: Observable<any>[], prefix?: string, ) {
+  if (prefix) {
+    for (let property in instance) {
+      let propertyName: string = property;
+      if (instance.hasOwnProperty(propertyName) && propertyName.startsWith(prefix)) {
+        const observable = getObservable(instance, propertyName);
+
+        if (observable && observables.indexOf(observable) === -1) {
+          observables.push(observable);
+        }
+      }
+    }
+  }
+}
+
+function getObservable(instance: any, propertyName: string): Observable<any> {
+  return typeof instance[propertyName] === 'function' ?
+    instance[propertyName]() : instance[propertyName];
 }
