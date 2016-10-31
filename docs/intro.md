@@ -18,7 +18,7 @@ observable service that emits every action dispatched in your application.
   import { Actions, Effect } from '@ngrx/effects';
 
   @Injectable()
-  export class AuthEffects implements OnDestroy {
+  export class AuthEffects {
     constructor(
       private http: Http,
       private actions$: Actions
