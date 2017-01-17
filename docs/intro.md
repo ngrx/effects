@@ -16,6 +16,7 @@ observable service that emits every action dispatched in your application.
   import { Injectable } from '@angular/core';
   import { Http } from '@angular/http';
   import { Actions, Effect } from '@ngrx/effects';
+  import { Observable } from 'rxjs/Observable';
 
   @Injectable()
   export class AuthEffects {
@@ -33,7 +34,7 @@ observable service that emits every action dispatched in your application.
           // If successful, dispatch success action with result
           .map(res => ({ type: 'LOGIN_SUCCESS', payload: res.json() }))
           // If request fails, dispatch failed action
-          .catch(() => Observable.of({ type: 'LOGIN_FAILED' }));
+          .catch(() => Observable.of({ type: 'LOGIN_FAILED' }))
         );
   }
   ```
