@@ -148,7 +148,7 @@ Add additional instances of effect classes to the subscription.
 Usage:
 ```ts
 class MyComponent {
-  constructor(effects: MoreEffects, subscription: EffectsSubscription) {
+  constructor(moreEffects: MoreEffects, subscription: EffectsSubscription) {
     subscription.addEffects([ moreEffects ]);
   }
 }
