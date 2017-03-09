@@ -3,6 +3,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Action, Dispatcher } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Operator } from 'rxjs/Operator';
 import { filter } from 'rxjs/operator/filter';
 
 
@@ -13,14 +14,14 @@ export class Actions extends Observable<Action> {
     this.source = actionsSubject;
   }
 
-  lift(operator) {
+  lift(operator: Operator<any, Action>): Observable<Action> {
     const observable = new Actions(this);
     observable.operator = operator;
     return observable;
   }
 
   ofType(...keys: string[]): Actions {
-    return filter.call(this, ({ type }) => {
+    return filter.call(this, ({ type }: {type: string}) => {
       const len = keys.length;
       if (len === 1) {
         return type === keys[0];
