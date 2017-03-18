@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/effects",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Side effect model for @ngrx/store",
   "main": "bundles/effects.umd.js",
   "module": "index.js",
