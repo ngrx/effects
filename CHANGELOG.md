@@ -1,3 +1,13 @@
+<a name="2.0.2"></a>
+## [2.0.2](https://github.com/ngrx/effects/compare/v2.0.1...v2.0.2) (2017-03-23)
+
+
+### Bug Fixes
+
+* **index:** missing export `runAfterBootstrapEffects` ([#116](https://github.com/ngrx/effects/issues/116)) ([78804c7](https://github.com/ngrx/effects/commit/78804c7))
+
+
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/ngrx/effects/compare/v2.0.0...v2.0.1) (2017-03-18)
 
