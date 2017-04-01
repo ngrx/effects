@@ -29,7 +29,7 @@ export class EffectsSubscription extends Subscription implements OnDestroy {
   addEffects(effectInstances: any[]) {
     const sources = effectInstances.map(mergeEffects);
     const merged = merge(...sources);
-    this.add(merged.filter(x => x).subscribe(this.store));
+    this.add(merged.filter((x: Action) => !!x && x.type != null).subscribe(this.store));
   }
 
   ngOnDestroy() {
