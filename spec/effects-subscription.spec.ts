@@ -2,6 +2,7 @@ import { ReflectiveInjector } from '@angular/core';
 import { of } from 'rxjs/observable/of';
 import { Effect } from '../src/effects';
 import { EffectsSubscription } from '../src/effects-subscription';
+import { SingletonEffectsService } from '../src/singleton-effects.service';
 
 
 describe('Effects Subscription', () => {
@@ -40,5 +41,24 @@ describe('Effects Subscription', () => {
     expect(observer.next).toHaveBeenCalledWith('a');
     expect(observer.next).toHaveBeenCalledWith('b');
     expect(observer.next).toHaveBeenCalledWith('c');
+  });
+
+  it('should not merge duplicate effects instances when a SingletonEffectsService is provided', () => {
+    class Source {
+      @Effect() a$ = of('a');
+      @Effect() b$ = of('b');
+      @Effect() c$ = of('c');
+    }
+    const instance = new Source();
+    const observer: any = { next: jasmine.createSpy('next') };
+    let singletonEffectsService = new SingletonEffectsService();
+    singletonEffectsService.removeExistingAndRegisterNew([ instance ]);
+
+    const subscription = new EffectsSubscription(observer, null, [ instance ], singletonEffectsService);
+
+    expect(observer.next).not.toHaveBeenCalled();
+    expect(observer.next).not.toHaveBeenCalledWith('a');
+    expect(observer.next).not.toHaveBeenCalledWith('b');
+    expect(observer.next).not.toHaveBeenCalledWith('c');
   });
 });
