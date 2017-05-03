@@ -6,6 +6,25 @@
 
 Feature module for @ngrx/effects.
 
+### forRoot
+Used to provide optional config for Effects.
+
+Usage:
+```ts
+@NgModule({
+  imports: [
+    EffectsModule.forRoot({ effectsAsSingletons: true })
+  ]
+})
+export class AppModule { }
+```
+
+Using `effectsAsSingletons: true` will cause effects that are passed to
+`EffectModule.run` multiple times (for example in lazy loaded modules) to only
+subscribe once. This is useful if you have effects which are shared amongst
+several lazy loaded features in your application and do not want effects to run
+more than one - e.g. to prevent duplicate http requests being made.
+
 ### run
 
 Registers an effects class to be run immediately when the target module is
