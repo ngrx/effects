@@ -14,6 +14,7 @@ describe('Actions', function() {
 
   const ADD = 'ADD';
   const SUBTRACT = 'SUBTRACT';
+  const MULTIPLY = 'MULTIPLY';
 
   function reducer(state: number = 0, action: Action) {
     switch (action.type) {
@@ -65,6 +66,24 @@ describe('Actions', function() {
 
     actions$
       .ofType(ADD)
+      .map(update => update.type)
+      .toArray()
+      .subscribe({
+        next(actual) {
+          expect(actual).toEqual(expected);
+        }
+      });
+
+    actions.forEach(action => dispatcher.dispatch({ type: action }));
+    dispatcher.complete();
+  });
+
+  it('should let you filter out several actions', function() {
+    const actions = [ ADD, ADD, SUBTRACT, ADD, SUBTRACT, MULTIPLY ];
+    const expected = actions.filter(type => type === ADD || type === MULTIPLY);
+
+    actions$
+      .ofType(ADD, MULTIPLY)
       .map(update => update.type)
       .toArray()
       .subscribe({

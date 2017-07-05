@@ -2,6 +2,7 @@ import { ReflectiveInjector } from '@angular/core';
 import { of } from 'rxjs/observable/of';
 import { Effect } from '../src/effects';
 import { EffectsSubscription } from '../src/effects-subscription';
+import { Action } from '@ngrx/store';
 
 
 describe('Effects Subscription', () => {
@@ -25,20 +26,27 @@ describe('Effects Subscription', () => {
     expect(subscription.unsubscribe).toHaveBeenCalled();
   });
 
-  it('should merge effects instances and subscribe them to the observer', () => {
+  it('should merge effects instances and subscribe only the ones returning actions to the observer', () => {
+
+    class TestAction implements Action {
+      constructor(public type = 'test-action', public payload = 'test') {}
+    }
+
+    const action = new TestAction();
+    const action2 = new TestAction('test2-action');
     class Source {
-      @Effect() a$ = of('a');
+      @Effect() a$ = of(action);
       @Effect() b$ = of('b');
-      @Effect() c$ = of('c');
+      @Effect({dispatch: false}) c$ = of('c');
+      @Effect() d$ = of(action2);
     }
     const instance = new Source();
     const observer: any = { next: jasmine.createSpy('next') };
 
     const subscription = new EffectsSubscription(observer, null, [ instance ]);
 
-    expect(observer.next).toHaveBeenCalledTimes(3);
-    expect(observer.next).toHaveBeenCalledWith('a');
-    expect(observer.next).toHaveBeenCalledWith('b');
-    expect(observer.next).toHaveBeenCalledWith('c');
+    expect(observer.next).toHaveBeenCalledTimes(2);
+    expect(observer.next).toHaveBeenCalledWith(action);
+    expect(observer.next).toHaveBeenCalledWith(action2);
   });
 });

@@ -9,6 +9,7 @@
     "url": "https://github.com/ngrx/effects.git"
   },
   "scripts": {
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "karma": "karma start --single-run",
     "test": "nyc node tests.js",
     "test:raw": "node tests.js",
@@ -65,7 +66,7 @@
     "rxjs": "^5.0.0-beta.12",
     "source-map-loader": "^0.1.5",
     "ts-loader": "^0.8.2",
-    "ts-node": "^1.6.0",
+    "ts-node": "^3.0.2",
     "tslint": "^3.15.1",
     "tslint-loader": "^2.1.5",
     "typescript": "^2.0.2",

@@ -4,7 +4,7 @@ import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import { merge } from 'rxjs/observable/merge';
 import { mergeEffects } from './effects';
-
+import 'rxjs/add/operator/filter';
 
 export const effects = new OpaqueToken('ngrx/effects: Effects');
 
@@ -29,8 +29,7 @@ export class EffectsSubscription extends Subscription implements OnDestroy {
   addEffects(effectInstances: any[]) {
     const sources = effectInstances.map(mergeEffects);
     const merged = merge(...sources);
-
-    this.add(merged.subscribe(this.store));
+    this.add(merged.filter((x: Action) => !!x && x.type != null).subscribe(this.store));
   }
 
   ngOnDestroy() {
