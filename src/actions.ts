@@ -14,7 +14,7 @@ export class Actions extends Observable<Action> {
     this.source = actionsSubject;
   }
 
-  lift<Action>(operator: Operator<any, Action>): Observable<Action> {
+  lift<R>(operator: Operator<Action, R>): Observable<R> {
     const observable = new Actions(this);
     observable.operator = operator;
     return observable;
