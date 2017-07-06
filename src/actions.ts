@@ -14,12 +14,6 @@ export class Actions extends Observable<Action> {
     this.source = actionsSubject;
   }
 
-  lift<Action>(operator: Operator<any, Action>): Observable<Action> {
-    const observable = new Actions(this);
-    observable.operator = operator;
-    return observable;
-  }
-
   ofType(...keys: string[]): Actions {
     return filter.call(this, ({ type }: {type: string}) => {
       const len = keys.length;
