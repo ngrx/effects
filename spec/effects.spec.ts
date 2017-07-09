@@ -1,4 +1,5 @@
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/toArray';
 import { Observable } from 'rxjs/Observable';
 
 import { Effect, mergeEffects } from '../src/effects';
@@ -16,7 +17,7 @@ describe('mergeEffects', function() {
     const expected = ['a', 'b', 'd'];
 
     mergeEffects(mock).toArray().subscribe({
-      next(actual) {
+      next(actual: any[]) {
         expect(actual).toEqual(expected);
       },
       error: done,
