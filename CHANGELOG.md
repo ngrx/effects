@@ -1,3 +1,13 @@
+<a name="2.0.4"></a>
+## [2.0.4](https://github.com/ngrx/effects/compare/v2.0.3...v2.0.4) (2017-07-09)
+
+
+### Bug Fixes
+
+* **Effects:** Updated signature for with lift method ([#163](https://github.com/ngrx/effects/issues/163)) ([d264b4f](https://github.com/ngrx/effects/commit/d264b4f)), closes [#161](https://github.com/ngrx/effects/issues/161)
+
+
+
 <a name="2.0.3"></a>
 ## [2.0.3](https://github.com/ngrx/effects/compare/v2.0.2...v2.0.3) (2017-04-20)
 
