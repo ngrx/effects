@@ -76,4 +76,42 @@ describe('Actions', function() {
     actions.forEach(action => dispatcher.dispatch({ type: action }));
     dispatcher.complete();
   });
+    it('should let you filter out grouped actions', fakeAsync(() => {
+    const actions = [ADD, ADD, SUBTRACT];
+    const spy = jasmine.createSpy('spy', (): null => null);
+    actions$
+      .groupOfType(ADD, SUBTRACT)
+      .subscribe(spy);
+
+    actions.forEach(action => dispatcher.dispatch({ type: action }));
+    dispatcher.complete();
+
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it('should let you filter out grouped actions multiple times', fakeAsync(() => {
+    const actions = [ADD, SUBTRACT, ADD, SUBTRACT];
+    const spy = jasmine.createSpy('spy', (): null => null);
+    actions$
+      .groupOfType(ADD, SUBTRACT)
+      .subscribe(spy);
+
+    actions.forEach(action => dispatcher.dispatch({ type: action }));
+    dispatcher.complete();
+
+    expect(spy).toHaveBeenCalledTimes(2);
+  }));
+
+  it('should not be called if not all actions are dispatched', fakeAsync(() => {
+    const actions = [ADD, ADD];
+    const spy = jasmine.createSpy('spy', (): null => null);
+    actions$
+      .groupOfType(ADD, SUBTRACT)
+      .subscribe(spy);
+
+    actions.forEach(action => dispatcher.dispatch({ type: action }));
+    dispatcher.complete();
+
+    expect(spy).not.toHaveBeenCalled();
+  }));
 });
