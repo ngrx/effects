@@ -54,6 +54,15 @@ Usage:
 actions$.ofType('LOGIN', 'LOGOUT');
 ```
 
+### groupOfType
+
+Filter grouped actions by action types and wait for all of them to be dispatched. Accepts multiple action types.
+
+Usage:
+```
+actions$.groupOfType('GET_HERO_SUCCESS', 'GET_ENEMY_SUCCESS');
+```
+
 
 ## Effect
 
@@ -81,6 +90,16 @@ class MyEffects {
         this.auth.logout()
           .map(res => ({ type: 'LOGOUT_SUCCESS', payload: res }))
           .catch(err => Observable.of({ type: 'LOGOUT_FAILURE', payload: err }))
+      );
+  }
+  
+  @Effect() startGame(): Observable<Action> {
+    return this.actions$
+      .groupOfType('GET_HERO_SUCCESS', 'GET_ENEMY_SUCCESS')
+      .switchMap(() =>
+        this.service.startGame()
+          .map(res => ({ type: 'START_GAME', payload: res }))
+          .catch(err => Observable.of({ type: 'START_GAME_FAILURE', payload: err }))
       );
   }
 }
