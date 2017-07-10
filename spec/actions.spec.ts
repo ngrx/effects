@@ -2,6 +2,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toArray';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
+import { fakeAsync } from '@angular/core/testing';
 import { ReflectiveInjector } from '@angular/core';
 import { Action, provideStore, Dispatcher } from '@ngrx/store';
 
