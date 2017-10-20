@@ -11,7 +11,7 @@ Side effect model for @ngrx/store
 ### Installation
 To install @ngrx/effects from npm:
 ```bash
-npm install @ngrx/effects@2.0.4 --save
+npm install @ngrx/effects@2.0.5 --save
 ```
 
 ### Documentation
