@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/effects",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Side effect model for @ngrx/store",
   "main": "bundles/effects.umd.js",
   "module": "index.js",
@@ -14,7 +14,7 @@
     "test:raw": "node tests.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "clean:pre": "rimraf release",
-    "clean:post": "rimraf src/**/*.ngfactory.ts",
+    "clean:post": "rimraf src/**/*.ngfactory.ts && rimraf release/*.ngsummary.json release/**/*.ngsummary.json",
     "copy": "cpy LICENSE package.json README.md release",
     "build:js": "ngc -p tsconfig.dist.json",
     "build:testing": "ngc -p tsconfig.testing.json",

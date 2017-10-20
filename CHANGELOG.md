@@ -1,3 +1,13 @@
+<a name="2.0.5"></a>
+## [2.0.5](https://github.com/ngrx/effects/compare/v2.0.4...v2.0.5) (2017-10-20)
+
+
+### Bug Fixes
+
+* **build:** Remove ngsummary files from published build ([#180](https://github.com/ngrx/effects/issues/180)) ([e3e7c67](https://github.com/ngrx/effects/commit/e3e7c67))
+
+
+
 <a name="2.0.4"></a>
 ## [2.0.4](https://github.com/ngrx/effects/compare/v2.0.3...v2.0.4) (2017-07-09)
 

@@ -23,7 +23,6 @@
     "testing/index.ts"
   ],
   "angularCompilerOptions": {
-    "strictMetadataEmit": true,
-    "genDir": "./release"
+    "strictMetadataEmit": true
   }
 }
