@@ -58,3 +58,4 @@ __build__/**
 release
 .ngc
 *.ngfactory.ts
+*.ngsummary.json
